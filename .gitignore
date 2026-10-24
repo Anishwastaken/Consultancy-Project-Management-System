@@ -1,0 +1,7 @@
+node_modules
+dist
+.venv
+*.log
+# Local AI-assistant skills (third-party tooling, not part of the app)
+.claude/
+.agents/
