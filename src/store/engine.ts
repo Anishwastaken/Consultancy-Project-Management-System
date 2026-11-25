@@ -344,6 +344,20 @@ export const handlers = {
   },
 }
 
+/** Self sign-up, after the e-mail is verified. Not an action: the account
+ *  starts Inactive and an administrator activates it on the Users page. */
+export function registerUser(db: DB, input: Pick<User, 'name' | 'email' | 'department' | 'title' | 'roleId'>): Result<User> {
+  const email = input.email.trim().toLowerCase()
+  if (db.users.some((u) => u.email.toLowerCase() === email)) return { ok: false, error: 'An account with this email already exists. Sign in instead.' }
+  const role = db.roles.find((r) => r.id === input.roleId)
+  if (!role) return { ok: false, error: 'Unknown role.' }
+  const u: User = { id: nextId(db.users.map((x) => x.id), 'U'), name: input.name.trim(), email, phone: '', roleId: role.id, department: input.department.trim(), title: input.title.trim(), status: 'Inactive' }
+  db.users.push(u)
+  audit(db, u.id, 'Request account', u.id, `${u.name} signed up as ${role.name}; waiting for activation.`)
+  notify(db, usersWithRole(db, 'admin'), 'Account request', `${u.name} (${u.email}) signed up as ${role.name}. Review the role and activate the account.`, '/users')
+  return { ok: true, value: u }
+}
+
 export type ActionName = keyof typeof handlers
 type Tail<F> = F extends (first: never, ...rest: infer R) => unknown ? R : never
 export type ActionArgs<K extends ActionName> = Tail<(typeof handlers)[K]>

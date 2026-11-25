@@ -452,9 +452,10 @@ export class MySqlDataAccess implements IDataAccess {
     return { rev: meta.length ? Number(meta[0].meta_value) : 1, db }
   }
 
-  async commit(before: DB, after: DB, rev: number) {
+  async commit(before: DB, after: DB, rev: number, passwords: Record<string, string> = {}) {
     await this.transaction(async (c) => {
       await applyDiff(c, before, after)
+      for (const [userId, hash] of Object.entries(passwords)) await c.query('UPDATE users SET password_hash = ? WHERE user_id = ?', [hash, userId])
       await setRev(c, rev)
     })
   }

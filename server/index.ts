@@ -7,6 +7,8 @@
 //   POST /api/login         { email, password }    -> { challengeId, sentTo, delivery, ... }
 //   POST /api/login/verify  { challengeId, code }  -> { token, user, db, rev }
 //   POST /api/login/resend  { challengeId }        -> { sentTo, delivery, ... }
+//   POST /api/signup        { name, email, ... }   -> { challengeId, sentTo, delivery, ... }
+//   POST /api/signup/verify { challengeId, code }  -> { email }   (account created Inactive)
 //   GET  /api/state      (?rev=N)             -> { rev, db } | { rev, unchanged }
 //   POST /api/actions    { name, args }       -> { result, db, rev }
 //   POST /api/reset                           -> { db, rev }     (demo only)
@@ -23,9 +25,9 @@ import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { createSeed } from '../src/data/seed'
-import type { User } from '../src/data/types'
-import { DOMAIN_ERROR, isInstituteEmail } from '../src/lib/auth'
-import { didFail, isActionName, runAction } from '../src/store/engine'
+import type { RoleId, User } from '../src/data/types'
+import { DOMAIN_ERROR, isInstituteEmail, signupErrors, type SignupInput } from '../src/lib/auth'
+import { didFail, isActionName, registerUser, runAction } from '../src/store/engine'
 import { describeMailSetup, destinationFor, mailConfigured, sendOtp } from './mailer'
 import { createChallenge, OTP_TTL_MS, RESEND_AFTER_MS, resend, verify } from './otp'
 import { createDataAccess, explainStoreError } from './db'
@@ -171,7 +173,9 @@ app.post('/api/login/resend', async (req, res) => {
   if (typeof challengeId !== 'string') return fail(res, 400, 'This sign-in has expired. Enter your email and password again.')
   const r = resend(challengeId)
   if (!r.ok) return res.status(r.retryInMs ? 429 : 400).json({ error: r.error, retryInSec: r.retryInMs ? Math.ceil(r.retryInMs / 1000) : undefined, restart: !r.retryInMs })
-  const user = state.db.users.find((u) => u.id === r.userId)!
+  // The same resend serves sign-in codes and sign-up codes.
+  const user = signups.get(r.userId)?.input ?? state.db.users.find((u) => u.id === r.userId)
+  if (!user) return res.status(400).json({ error: 'This code has expired. Start again.', restart: true })
   try {
     const delivery = await sendOtp(user.email, user.name, r.code, OTP_TTL_MS / 60000)
     res.json(otpResponse(challengeId, user.email, delivery))
@@ -184,13 +188,82 @@ app.post('/api/login/resend', async (req, res) => {
 app.post('/api/login/verify', (req, res) => {
   const { challengeId, code } = (req.body ?? {}) as { challengeId?: unknown; code?: unknown }
   if (typeof challengeId !== 'string' || typeof code !== 'string') return res.status(400).json({ error: 'Enter the 6-digit code.', restart: false })
-  const r = verify(challengeId, code)
+  const r = verify(challengeId, code, (subject) => !isSignup(subject))
   if (!r.ok) return res.status(401).json({ error: r.error, restart: r.restart })
   const user = state.db.users.find((u) => u.id === r.userId && u.status === 'Active')
   if (!user) return res.status(401).json({ error: GENERIC_LOGIN_ERROR, restart: true })
   console.log(`[api] ${user.id} signed in with e-mail code (${user.roleId})`)
   res.json({ token: issueToken(user.id), user, db: state.db, rev: state.rev })
 })
+
+/* ------------------------------------------------------------ sign-up -- */
+// Self-registration in two steps, like sign-in: the form, then a one-time code
+// that proves the person owns the e-mail address. Only then is the account
+// created, Inactive and with the requested role; an administrator reviews it
+// and activates it on the Users page.
+
+const SIGNUP_TTL_MS = 30 * 60 * 1000
+interface PendingSignup {
+  input: Omit<SignupInput, 'password'>
+  hash: string
+  created: number
+}
+// Keyed by the OTP subject ("signup:<random>"), never by a user id.
+const signups = new Map<string, PendingSignup>()
+const isSignup = (subject: string) => subject.startsWith('signup:')
+
+const text = (v: unknown) => (typeof v === 'string' ? v : '')
+const emailTaken = (email: string) => state.db.users.some((u) => u.email.toLowerCase() === email.trim().toLowerCase())
+
+app.post('/api/signup', async (req, res) => {
+  const b = (req.body ?? {}) as Record<string, unknown>
+  const input: SignupInput = { name: text(b.name), email: text(b.email), department: text(b.department), title: text(b.title), roleId: text(b.roleId) as RoleId, password: text(b.password) }
+  const first = Object.values(signupErrors(input))[0]
+  if (first) return fail(res, 400, first)
+  if (emailTaken(input.email)) return fail(res, 409, 'An account with this email already exists. Sign in instead.')
+
+  const now = Date.now()
+  for (const [k, p] of signups) if (p.created + SIGNUP_TTL_MS < now) signups.delete(k)
+  const subject = `signup:${randomBytes(12).toString('base64url')}`
+  const { password, ...profile } = input
+  signups.set(subject, { input: { ...profile, email: profile.email.trim().toLowerCase() }, hash: hashPassword(password), created: now })
+
+  const { id, code } = createChallenge(subject)
+  const to = signups.get(subject)!.input
+  try {
+    const delivery = await sendOtp(to.email, to.name, code, OTP_TTL_MS / 60000)
+    res.json(otpResponse(id, to.email, delivery))
+  } catch (e) {
+    signups.delete(subject)
+    console.log(`[otp] could not e-mail ${to.email}: ${(e as Error).message}`)
+    fail(res, 502, 'The verification e-mail could not be sent. Try again in a moment.')
+  }
+})
+
+app.post('/api/signup/verify', (req, res) =>
+  serialized(async () => {
+    const { challengeId, code } = (req.body ?? {}) as { challengeId?: unknown; code?: unknown }
+    if (typeof challengeId !== 'string' || typeof code !== 'string') return res.status(400).json({ error: 'Enter the 6-digit code.', restart: false })
+    const r = verify(challengeId, code, isSignup)
+    if (!r.ok) return res.status(401).json({ error: r.error, restart: r.restart })
+    const pending = signups.get(r.userId)
+    if (!pending) return res.status(401).json({ error: 'This sign-up has expired. Fill in the form again.', restart: true })
+    signups.delete(r.userId)
+
+    const draft = structuredClone(state.db)
+    const result = registerUser(draft, pending.input)
+    if (!result.ok) return res.status(409).json({ error: result.error, restart: true })
+    try {
+      await store.commit(state.db, draft, state.rev + 1, { [result.value.id]: pending.hash })
+    } catch (e) {
+      console.log(`[db] sign-up for ${pending.input.email} -> not saved: ${(e as Error).message}`)
+      return res.status(500).json({ error: 'Your account could not be saved. Try again.', restart: true })
+    }
+    state = { rev: state.rev + 1, db: draft }
+    console.log(`[api] ${result.value.id} signed up as ${result.value.roleId}, waiting for activation (rev ${state.rev})`)
+    res.json({ email: result.value.email })
+  }),
+)
 
 app.get('/api/state', auth, (req, res) => {
   if (String(req.query.rev) === String(state.rev)) return res.json({ rev: state.rev, unchanged: true })

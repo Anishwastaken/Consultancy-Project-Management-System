@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import { createSeed } from '../data/seed'
 import type { DB, User } from '../data/types'
 import { api, NetworkError, TOKEN_KEY } from '../lib/api'
-import { DOMAIN_ERROR, isInstituteEmail } from '../lib/auth'
+import { DOMAIN_ERROR, isInstituteEmail, signupErrors, type SignupInput } from '../lib/auth'
 import { didFail, handlers, runAction, type ActionArgs, type ActionName, type ActionResult, type Result } from './engine'
 
 export type { Result } from './engine'
@@ -201,11 +201,39 @@ function useStoreValue() {
       }
     }
 
+    /* Sign-up, step 1: the form. The server e-mails a code to prove the address. */
+    const signUp = async (input: SignupInput): Promise<Result<OtpChallenge>> => {
+      const first = Object.values(signupErrors(input))[0]
+      if (first) return { ok: false, error: first }
+      try {
+        const { status, data } = await api<OtpChallenge & { error?: string }>('/api/signup', { method: 'POST', body: input })
+        if (status !== 200) return { ok: false, error: data.error ?? 'Sign up failed.' }
+        return { ok: true, value: data }
+      } catch (e) {
+        if (!(e instanceof NetworkError)) throw e
+        return { ok: false, error: SERVER_DOWN }
+      }
+    }
+
+    /* Step 2: the code. The account is created Inactive; no session is issued. */
+    const verifySignup = async (challengeId: string, code: string): Promise<{ ok: true; value: string } | { ok: false; error: string; restart: boolean }> => {
+      try {
+        const { status, data } = await api<{ email: string; error?: string; restart?: boolean }>('/api/signup/verify', { method: 'POST', body: { challengeId, code } })
+        if (status !== 200) return { ok: false, error: data.error ?? 'Verification failed.', restart: !!data.restart }
+        return { ok: true, value: data.email }
+      } catch (e) {
+        if (!(e instanceof NetworkError)) throw e
+        return { ok: false, error: SERVER_DOWN, restart: false }
+      }
+    }
+
     return {
       ...bound,
       requestCode,
       resendCode,
       verifyCode,
+      signUp,
+      verifySignup,
       /* FR-003 */
       logout: () => endSession(),
       /** Demo helper: sign out and pre-fill the sign-in form for another demo account.

@@ -75,6 +75,21 @@ Switch accounts from the avatar menu (top right); you get a fresh code for the n
 restores the original data on the server before a demo. Open two browsers (for example
 faculty and approver) to watch changes appear in the other window within a few seconds.
 
+## Sign-up
+
+New staff can request an account with **Create an account** on the sign-in page:
+
+1. They enter their name, @lnmiit.ac.in email, department, designation, the role they
+   need and a password (at least 8 characters). Administrator can't be requested.
+2. A one-time code is e-mailed to confirm the address (printed in the terminal when
+   e-mail isn't set up).
+3. The account is created **Inactive** with the requested role, and every administrator
+   gets an "Account request" notification. The password is stored as an scrypt hash.
+4. An administrator checks the role on **Users & roles** and clicks **Activate**. The
+   person can then sign in with their own password and a one-time code.
+
+**Reset sample data** removes accounts created this way.
+
 ## Suggested demo script
 
 1. **UC-004 Submit Proposal** — as Meera: *New proposal* → click *Submit for approval*
@@ -116,6 +131,8 @@ data, and the browser shows **Not saved** and reverts its preview.
 | `POST /api/login` | Check domain and password, e-mail a one-time code (same error for every failed login, FR-002) |
 | `POST /api/login/verify` | Check the code, return a signed 12-hour session token |
 | `POST /api/login/resend` | Send a new code (after 30 s) |
+| `POST /api/signup` | Check the sign-up form, e-mail a code to confirm the address |
+| `POST /api/signup/verify` | Check the code and create the account, Inactive, for an administrator to activate |
 | `GET /api/state` | Current data; the browser polls it every few seconds |
 | `POST /api/actions` | Run one use case as the signed-in user |
 | `POST /api/reset` | Restore sample data (demo only) |

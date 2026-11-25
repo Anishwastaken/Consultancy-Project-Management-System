@@ -20,8 +20,9 @@ export interface IDataAccess {
   /** Read every record. */
   load(): Promise<Snapshot>
 
-  /** Persist the difference between `before` and `after` atomically, as revision `rev`. */
-  commit(before: DB, after: DB, rev: number): Promise<void>
+  /** Persist the difference between `before` and `after` atomically, as revision `rev`.
+   *  `passwords` (user id → scrypt hash) sets credentials in the same transaction. */
+  commit(before: DB, after: DB, rev: number, passwords?: Record<string, string>): Promise<void>
 
   /** Replace all data with `seed` (demo reset), as revision `rev`. */
   reset(seed: DB, rev: number): Promise<void>

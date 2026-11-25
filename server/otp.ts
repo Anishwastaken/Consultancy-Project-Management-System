@@ -65,9 +65,11 @@ export function resend(id: string): ResendResult {
 
 export type VerifyResult = { ok: true; userId: string } | { ok: false; error: string; restart: boolean }
 
-export function verify(id: string, code: string): VerifyResult {
+/** `accepts` limits which subjects this caller may verify, so a sign-up code
+ *  can't be spent at the sign-in endpoint and the other way round. */
+export function verify(id: string, code: string, accepts: (subject: string) => boolean): VerifyResult {
   const c = challenges.get(id)
-  if (!c) return { ok: false, error: 'This sign-in has expired. Enter your email and password again.', restart: true }
+  if (!c || !accepts(c.userId)) return { ok: false, error: 'This sign-in has expired. Enter your email and password again.', restart: true }
   if (c.expires < Date.now()) {
     challenges.delete(id)
     return { ok: false, error: 'The code has expired. Enter your email and password to get a new one.', restart: true }
