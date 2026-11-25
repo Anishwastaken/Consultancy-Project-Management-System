@@ -1,7 +1,11 @@
 node_modules
+server/data/
 dist
 .venv
 *.log
 # Local AI-assistant skills (third-party tooling, not part of the app)
 .claude/
 .agents/
+.env
+testing/.data/
+__pycache__/

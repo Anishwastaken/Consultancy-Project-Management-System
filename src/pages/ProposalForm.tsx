@@ -47,7 +47,7 @@ export default function ProposalForm({ id }: { id?: string }) {
   if (!can(db, u, 'proposal.create')) {
     return (
       <Panel>
-        <EmptyState icon={FileLock2} title="Only faculty consultants can create proposals" body="This rule comes from BR-001. Sign in as a faculty consultant to try it." action={<ButtonLink to="/proposals">Back to proposals</ButtonLink>} />
+        <EmptyState icon={FileLock2} title="Only faculty consultants can create proposals" body="Sign in as a faculty consultant to try it." action={<ButtonLink to="/proposals">Back to proposals</ButtonLink>} />
       </Panel>
     )
   }
@@ -247,7 +247,7 @@ export default function ProposalForm({ id }: { id?: string }) {
               Save draft
             </Button>
           </div>
-          <p className="text-[12.5px] text-ink-3">Submitting moves the proposal from Draft to Submitted, records today’s date and notifies the Proposal Approver (UC-004).</p>
+          <p className="text-[12.5px] text-ink-3">Submitting moves the proposal from Draft to Submitted, records today’s date and notifies the Proposal Approver.</p>
         </aside>
       </div>
     </>

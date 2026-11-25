@@ -16,7 +16,7 @@ export default function Notifications() {
     <>
       <PageHeader
         title="Notifications"
-        description="Updates on proposals, approvals, deadlines, payments and cancellations (FR-037 – FR-040)."
+        description="Updates on proposals, approvals, deadlines, payments and cancellations."
         actions={
           unread > 0 && (
             <Button icon={CheckCheck} onClick={actions.markAllRead}>

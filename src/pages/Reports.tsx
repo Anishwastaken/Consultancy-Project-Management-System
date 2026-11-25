@@ -63,7 +63,7 @@ export default function Reports() {
 
   return (
     <>
-      <PageHeader title="Reports" description="Consultancy activity, finance and deliverable reports (FR-041 – FR-044). Export any report as CSV." actions={<Button icon={Download} onClick={exportCurrent}>Export CSV</Button>} />
+      <PageHeader title="Reports" description="Consultancy activity, finance and deliverable reports. Export any report as CSV." actions={<Button icon={Download} onClick={exportCurrent}>Export CSV</Button>} />
       <Tabs
         value={tab}
         onChange={setTab}
@@ -171,7 +171,7 @@ export default function Reports() {
         )}
 
         {tab === 'deliverables' && (
-          <Panel title="Deliverables and timeline" description="FR-042" bodyClassName="p-0">
+          <Panel title="Deliverables and timeline" bodyClassName="p-0">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[860px]">
                 <thead className="bg-sunken">

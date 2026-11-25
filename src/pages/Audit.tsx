@@ -24,7 +24,7 @@ export default function Audit() {
     <>
       <PageHeader
         title="Audit log"
-        description="Significant actions on proposals, agreements, finances, projects and accounts (NFR-007, NFR-020). Entries can’t be edited."
+        description="Significant actions on proposals, agreements, finances, projects and accounts. Entries can’t be edited."
         actions={
           <Button icon={Download} onClick={() => downloadCSV('cpts-audit-log.csv', [['Log ID', 'Timestamp', 'User', 'Action', 'Entity', 'Details'], ...rows.map((a) => [a.id, a.timestamp, L.user(a.actorId)?.name ?? '', a.action, a.entity, a.details])])}>
             Export CSV

@@ -197,7 +197,7 @@ export function ProjectDetail({ id }: { id: string }) {
       {p.status === 'Cancelled' && (
         <div className="mb-6">
           <Notice tone="bad" icon={Ban}>
-            <strong>This project was cancelled.</strong> {p.cancelReason} Cancelled projects can’t accept new financial transactions (BR-010).
+            <strong>This project was cancelled.</strong> {p.cancelReason} Cancelled projects can’t accept new financial transactions.
           </Notice>
         </div>
       )}
@@ -244,7 +244,7 @@ export function ProjectDetail({ id }: { id: string }) {
               </div>
             </Panel>
             {seesFinance ? (
-              <Panel title="Finance status" description="FR-027" action={<BudgetLegend />}>
+              <Panel title="Finance status" action={<BudgetLegend />}>
                 <BudgetBar budget={f.budget} invoiced={f.invoiced} received={f.received} />
                 <div className="mt-5">
                   <Dl
@@ -266,7 +266,7 @@ export function ProjectDetail({ id }: { id: string }) {
         )}
 
         {tab === 'timeline' && (
-          <Panel title="Timeline" description="Each deliverable belongs to a milestone (FR-032)." bodyClassName="p-0">
+          <Panel title="Timeline" description="Each deliverable belongs to a milestone." bodyClassName="p-0">
             <ol>
               {ms.map((m, i) => {
                 const mDels = dels.filter((d) => d.milestoneId === m.id)
@@ -344,7 +344,7 @@ export function ProjectDetail({ id }: { id: string }) {
 
         {tab === 'finance' && seesFinance && (
           <div className="flex flex-col gap-6">
-            <Panel title="Invoices" description="Payments settle invoices; an invoice can’t be paid twice (BR-005)." bodyClassName="p-0">
+            <Panel title="Invoices" description="Payments settle invoices; an invoice can’t be paid twice." bodyClassName="p-0">
               {f.invoices.length === 0 ? (
                 <EmptyState icon={Wallet} title="No invoices yet" body={f.budget === null ? 'Accounts must record the approved budget before invoicing.' : 'Invoices raised for this project will appear here.'} />
               ) : (
@@ -377,7 +377,7 @@ export function ProjectDetail({ id }: { id: string }) {
                 </div>
               )}
             </Panel>
-            <Panel title="Finance records" description="FR-028" bodyClassName="p-0">
+            <Panel title="Finance records" bodyClassName="p-0">
               <LedgerTable txns={txns} />
             </Panel>
           </div>
@@ -501,7 +501,7 @@ function DeliverableDialog({ open, onClose, projectId }: { open: boolean; onClos
       open={open}
       onClose={onClose}
       title="Record deliverable"
-      description={`Add a deliverable to ${projectId} and link it to a milestone (FR-029, FR-032).`}
+      description={`Add a deliverable to ${projectId} and link it to a milestone.`}
       footer={
         <>
           <Button onClick={onClose}>Cancel</Button>

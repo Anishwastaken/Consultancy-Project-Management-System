@@ -97,7 +97,7 @@ export default function Finance() {
         ))}
       </section>
 
-      <Panel title="Project finances" description="FR-027 finance status per project" className="mb-6" bodyClassName="p-0">
+      <Panel title="Project finances" description="Finance status per project" className="mb-6" bodyClassName="p-0">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px]">
             <thead className="bg-sunken">
@@ -143,7 +143,7 @@ export default function Finance() {
         </div>
       </Panel>
 
-      <Panel title="Ledger" description="All finance records (FR-028)" bodyClassName="p-0">
+      <Panel title="Ledger" description="All finance records" bodyClassName="p-0">
         <div className="flex flex-col gap-3 border-b border-line p-4 sm:flex-row sm:items-center sm:justify-between">
           <Segmented
             label="Transaction type"
@@ -279,7 +279,7 @@ function RecordTransactionDialog({ open, onClose, initialProject }: { open: bool
       onClose={onClose}
       size="lg"
       title="Record transaction"
-      description="UC-010. Each check must pass before the record is created."
+      description="Each check must pass before the record is created."
       footer={
         <>
           <Button onClick={onClose}>Cancel</Button>
@@ -429,7 +429,6 @@ function CheckRow({ check, index }: { check: Check; index: number }) {
           <p className="text-[13px] font-semibold text-ink">
             <span className="num text-ink-3">{index + 1}.</span> {check.label}
           </p>
-          <p className="text-[12px] text-ink-3">{check.rule}</p>
           {check.message && <p className={cx('mt-1 text-[12.5px]', check.state === 'fail' ? 'font-medium text-bad' : 'text-ink-2')}>{check.message}</p>}
           {check.state === 'pending' && <p className="mt-1 text-[12.5px] text-ink-3">Waiting for details</p>}
         </div>

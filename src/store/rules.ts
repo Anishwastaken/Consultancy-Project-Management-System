@@ -177,7 +177,7 @@ export function financeChecks(db: DB, user: User | undefined, input: TxnInput): 
 
   if (input.type === 'Budget') {
     bud.state = 'pass'
-    bud.message = `Sets the approved budget for ${project.id} (FR-021). Agreement value: ₹${agreement.value.toLocaleString('en-IN')}.`
+    bud.message = `Sets the approved budget for ${project.id}. Agreement value: ₹${agreement.value.toLocaleString('en-IN')}.`
   } else if (input.type === 'Invoice') {
     if (amount > fin.uninvoiced) {
       bud.state = 'fail'

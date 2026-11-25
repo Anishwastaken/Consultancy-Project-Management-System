@@ -21,7 +21,7 @@ export default function Dashboard() {
     { label: 'Draft', value: count('Draft'), to: '/proposals?status=Draft' },
     { label: 'Submitted', value: count('Submitted'), to: '/proposals?status=Submitted' },
     { label: 'Under review', value: count('Under Review'), to: '/proposals?status=Under Review' },
-    { label: 'Awaiting agreement', value: proposals.filter((p) => p.status === 'Approved' && !p.agreementId).length, to: '/proposals?status=Approved' },
+    { label: 'Awaiting agreement', value: proposals.filter((p) => p.status === 'Approved' && !p.agreementId).length, to: '/agreements' },
     { label: 'Active projects', value: projects.filter((p) => p.status === 'Active').length, to: '/projects?status=Active' },
     { label: 'Completed', value: projects.filter((p) => p.status === 'Completed').length, to: '/projects?status=Completed' },
   ]

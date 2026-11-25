@@ -51,13 +51,17 @@ export function canAccess(path: string, role: RoleId) {
 }
 
 export function Shell({ path, children }: { path: string; children: ReactNode }) {
-  const { db, user } = useStore()
+  const { db, user, mode, syncError } = useStore()
+  const toast = useToast()
   const [open, setOpen] = useState(false)
   const role = db.roles.find((r) => r.id === user?.roleId)
   const root = '/' + (path.split('/')[1] ?? '')
   const pending = db.proposals.filter((p) => p.status === 'Submitted' || p.status === 'Under Review').length
 
   useEffect(() => setOpen(false), [path])
+  useEffect(() => {
+    if (syncError) toast({ tone: 'bad', title: 'Not saved', body: syncError.message })
+  }, [syncError, toast])
 
   const nav = (
     <nav aria-label="Main" className="flex flex-1 flex-col gap-6 overflow-y-auto px-3 py-5">
@@ -128,7 +132,13 @@ export function Shell({ path, children }: { path: string; children: ReactNode })
           </button>
           <div className="flex min-w-0 items-center gap-2 text-sm">
             <span className="truncate font-medium text-ink-2">{role?.name}</span>
-            <span className="hidden rounded-full border border-line-2 px-2 py-0.5 text-[11.5px] font-medium text-ink-3 sm:inline">Prototype · sample data</span>
+            <span
+              className={cx('hidden items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11.5px] font-medium sm:inline-flex', mode === 'server' ? 'border-ok/30 bg-ok-soft text-ok' : 'border-warn/30 bg-warn-soft text-warn')}
+              title={mode === 'server' ? 'Data is saved on the CPTS server' : 'Server not reachable: changes are saved only in this browser'}
+            >
+              <span className="size-1.5 rounded-full bg-current" aria-hidden />
+              {mode === 'server' ? 'Connected to server' : 'Offline: saved in this browser'}
+            </span>
           </div>
           <div className="ml-auto flex items-center gap-1">
             <NotificationBell />
@@ -159,13 +169,18 @@ function SidebarFooter({ roleName }: { roleName: string }) {
   const { user } = useStore()
   if (!user) return null
   return (
-    <div className="flex items-center gap-3 border-t border-line px-4 py-3.5">
+    <>
+    <div className="border-t border-line px-5 pt-4 pb-1">
+      <img src="/lnmiit-logo.png" alt="The LNM Institute of Information Technology" className="h-10 w-auto" />
+    </div>
+    <div className="flex items-center gap-3 px-4 py-3.5">
       <Avatar name={user.name} size={32} />
       <div className="min-w-0 leading-tight">
         <p className="truncate text-[13px] font-semibold text-ink">{user.name}</p>
         <p className="truncate text-[12px] text-ink-3">{roleName}</p>
       </div>
     </div>
+    </>
   )
 }
 
@@ -259,16 +274,15 @@ function UserMenu() {
             <p className="text-[12.5px] text-ink-3">{user.email}</p>
           </div>
           <div className="px-2 py-2">
-            <p className="px-2 pt-1 pb-1.5 text-[12px] font-medium text-ink-3">Switch demo account</p>
             {demoUsers.map((u) => (
               <button
                 key={u.id}
                 type="button"
                 onClick={() => {
-                  actions.switchUser(u.id)
                   setOpen(false)
-                  navigate('/dashboard')
-                  toast({ tone: 'info', title: `Signed in as ${u.name}`, body: L.role(u.roleId)?.name })
+                  actions.switchUser(u.id)
+                  navigate('/')
+                  toast({ tone: 'info', title: `Verify sign-in for ${u.name}`, body: 'Continue on the sign-in page; a one-time code is required.' })
                 }}
                 className={cx('flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-left hover:bg-sunken', u.id === user.id && 'bg-brand-soft')}
               >
@@ -283,9 +297,9 @@ function UserMenu() {
           <div className="border-t border-line px-2 py-2">
             <button
               type="button"
-              onClick={() => {
-                actions.resetDemo()
+              onClick={async () => {
                 setOpen(false)
+                await actions.resetDemo()
                 toast({ tone: 'info', title: 'Sample data restored', body: 'All changes made in this browser were cleared.' })
               }}
               className="flex w-full items-center gap-2.5 rounded-md px-2 py-2 text-[13px] text-ink-2 hover:bg-sunken"

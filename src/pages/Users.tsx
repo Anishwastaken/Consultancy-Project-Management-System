@@ -31,7 +31,7 @@ export default function Users() {
 
   return (
     <>
-      <PageHeader title="Users and roles" description="Assign roles to control what each person can do (FR-004, FR-005). Changes are recorded in the audit log." />
+      <PageHeader title="Users and roles" description="Assign roles to control what each person can do. Changes are recorded in the audit log." />
       <Tabs
         value={tab}
         onChange={setTab}

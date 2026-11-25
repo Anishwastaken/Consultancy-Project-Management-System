@@ -1,0 +1,105 @@
+{
+  "_browser": "Chrome 157.0.8103.80",
+  "TC-01 A": {
+    "toast": "Proposal submitted\n\nP050 is now with the Proposal Approver. You’ll be notified of the decision.",
+    "status": "Submitted"
+  },
+  "TC-01 B": {
+    "toast": "Proposal submitted\n\nP050 is now with the Proposal Approver. You’ll be notified of the decision.",
+    "status": "Submitted"
+  },
+  "TC-02": {
+    "toast": "Proposal not submitted\n\nComplete the missing information before submitting.",
+    "banner": "7 of 13 required fields are incomplete. Complete proposed budget, end date, scope of work, deliverables, milestones, expected outcomes, terms and conditions before submitting (UC-004, step 5). Complete the draft",
+    "status": "Draft"
+  },
+  "TC-03 P046": {
+    "submitButtons": 0
+  },
+  "TC-03 P042": {
+    "submitButtons": 0
+  },
+  "TC-04 B4": {
+    "toast": "Proposal not submitted\n\nComplete the missing information before submitting.\n\nProposal not submitted\n\n1 required field is incomplete.",
+    "endField": [
+      "End date must be after the start date."
+    ],
+    "status": "Draft"
+  },
+  "TC-07 B2": {
+    "dialog": "Reject P046?\n\nDr. Meera Iyer will be notified with your reason and can revise the proposal.\n\nReason for rejection\n*\n\nGive the consultant a reason so they can revise the proposal.\n\nCancel\nReject proposal",
+    "status": "Under Review"
+  },
+  "TC-08 B": {
+    "tabYToast": "Proposal rejected\n\nDr. Meera Iyer has been notified.",
+    "tabYAfter5s": "Review queue\nComputer vision QA for PCB assembly line\nApproved\nP046\nfor\nABC Technologies Pvt. Ltd.\nFinalize agreement\nDraft\nSubmitted\nUnder review\n4\nApproved\n5\nAgreement\n6\nActive\n7\nCompleted\nProposal\nDescription\nCamera-based defect detection for solder joints on ABC Technologies’ PCB assembly line.\n",
+    "serverStatus": "Approved",
+    "approvalRows": [
+      [
+        "Approved",
+        ""
+      ]
+    ]
+  },
+  "TC-08 A": {
+    "decisionPanelShownInStaleTab": true,
+    "serverStatus": "Approved"
+  },
+  "TC-10": {
+    "toast": "Payment recorded\n\nT121 · ₹1,00,000",
+    "dialog": "Payment recorded\n\n₹1,00,000\n\nT121 · UTR HDFC26102699001\n\nProject\nPR027 · Loom vibration analysis and predictive maintenance\nSettles invoice\nINV/2026/018\nDate\n26 Oct 2026\nProject received to date\n₹2,62,000 of ₹5,40,000\nAvailable balance\n₹2,78,000\n\nLogged to the audit trail and confirmed by in-app notification. No money moves in CPTS; payments are recorded after they are received.\n\nRecord another\nDone"
+  },
+  "TC-11 B3": {
+    "toast": "Transaction rejected\n\nAmount is more than the ₹1,62,000 outstanding on INV/2026/018.",
+    "dialog": "voice\nPayment\nInvoice being paid\n*\nSelect an invoice\nINV/2026/013 · ₹1,62,000 · paid\nINV/2026/018 · ₹1,62,000 · ₹1,62,000 outstanding\nAmount (₹)\n*\n\n₹3,78,000\n\nDate\n*\nPayment reference (UTR / cheque no.)\n*\nNote\n\nValidation\n\n1. Officer authorized\n\nBR-007\n\nNeha Gupta holds the Finance/Accounts Officer role.\n\n2. Agreement finalized and budget defined\n\nBR-003 · BR-010\n\nAgreement A027 is finalized; budget ₹5,40,000 is defined.\n\n3. Within approved budget\n\nBR-006\n\nAmount is more than the ₹1,62,000 outstanding on INV/2026/018.\n\n4. Not already recorded\n\nBR-005\n\nWaiting for details\n\nCancel\nRecord payment"
+  },
+  "TC-11 B6": {
+    "fieldValue": "1000.005",
+    "toast": "Payment recorded\n\nT121 · ₹1,000",
+    "dialog": "Payment recorded\n\n₹1,000\n\nT121 · UTR TC11B6\n\nProject\nPR027 · Loom vibration analysis and predictive maintenance\nSettles invoice\nINV/2026/018\nDate\n26 Oct 2026\nProject received to date\n₹1,63,000 of ₹5,40,000\nAvailable balance\n₹3,77,000\n\nLogged to the audit trail and confirmed by in-app notification. No money moves in CPTS; payments are recorded after they are received.\n\nRecord another\nDone",
+    "serverAmount": [
+      1000.005
+    ],
+    "dbAmount": "+----------------+---------+\n| transaction_id | amount  |\n+----------------+---------+\n| T121           | 1000.01 |\n+----------------+---------+"
+  },
+  "TC-16 E": {
+    "uiScreen": "This proposal belongs to another consultant\n\nFaculty can only open their own proposals.\n\nBack to proposals",
+    "api": "GET /api/state  as Dr. Meera Iyer (U101)  ->  HTTP 200\n\nP045 in response:\n{\n  \"id\": \"P045\",\n  \"clientId\": \"C028\",\n  \"ownerId\": \"U108\",\n  \"title\": \"Energy audit of three heritage properties\",\n  \"description\": \"Detailed energy audit of HVAC, lighting and water heating across three hotel properties.\",\n"
+  },
+  "TC-15 chrome": {
+    "browserVersion": "157.0.8103.80",
+    "meeraLanding": "/dashboard",
+    "C1": "Proposal submitted\n\nP050 is now with the Proposal Approver. You’ll be notified of the decision.",
+    "sanjayLanding": "/dashboard",
+    "C2": "Proposal approved\n\nDr. Meera Iyer has been notified.",
+    "nehaLanding": "/dashboard",
+    "C3": "Payment recorded\n\nT121 · ₹1,00,000",
+    "dialog": "Payment recorded\n\n₹1,00,000\n\nT121 · UTR HDFC26102699001\n\nProject\nPR027 · Loom vibration analysis and predictive maintenance\nSettles invoice\nINV/2026/018\nDate\n26 Oct 2026\nProject received to date\n₹2,62,000 of ₹5,40,000\nAvailable balance\n₹2,78,000\n\nLogged to the audit trail and confirmed by in-app notification. No money moves in CPTS; payments are recorded after they are received.\n\nRecord another\nDone",
+    "P050": "Approved",
+    "PR027": {
+      "budget": 540000,
+      "invoiced": 324000,
+      "received": 262000,
+      "available": 278000,
+      "txns": 5
+    }
+  },
+  "TC-15 msedge": {
+    "browserVersion": "157.0.4341.60",
+    "meeraLanding": "/dashboard",
+    "C1": "Proposal submitted\n\nP050 is now with the Proposal Approver. You’ll be notified of the decision.",
+    "sanjayLanding": "/dashboard",
+    "C2": "Proposal approved\n\nDr. Meera Iyer has been notified.",
+    "nehaLanding": "/dashboard",
+    "C3": "Payment recorded\n\nT121 · ₹1,00,000",
+    "dialog": "Payment recorded\n\n₹1,00,000\n\nT121 · UTR HDFC26102699001\n\nProject\nPR027 · Loom vibration analysis and predictive maintenance\nSettles invoice\nINV/2026/018\nDate\n26 Oct 2026\nProject received to date\n₹2,62,000 of ₹5,40,000\nAvailable balance\n₹2,78,000\n\nLogged to the audit trail and confirmed by in-app notification. No money moves in CPTS; payments are recorded after they are received.\n\nRecord another\nDone",
+    "P050": "Approved",
+    "PR027": {
+      "budget": 540000,
+      "invoiced": 324000,
+      "received": 262000,
+      "available": 278000,
+      "txns": 5
+    }
+  }
+}

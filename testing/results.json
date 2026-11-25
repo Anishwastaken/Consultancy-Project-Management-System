@@ -1,0 +1,618 @@
+{
+  "TC-01": {
+    "A": {
+      "http": 200,
+      "result": {
+        "ok": true
+      },
+      "error": null,
+      "status": "Submitted",
+      "submissionDate": "2026-11-20",
+      "approverNotifications": [
+        "Proposal submitted / Unread"
+      ]
+    },
+    "B": {
+      "setup": {
+        "http": 200,
+        "result": {
+          "ok": true
+        },
+        "error": null
+      },
+      "http": 200,
+      "result": {
+        "ok": true
+      },
+      "error": null,
+      "status": "Submitted",
+      "sanjayStatus": "Inactive",
+      "approverNotifications": 0,
+      "warningInResponse": false
+    }
+  },
+  "TC-02": {
+    "P049": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Complete the missing information before submitting."
+      },
+      "error": null,
+      "status": "Draft",
+      "notifications": 0
+    }
+  },
+  "TC-03": {
+    "P046": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Only drafts can be submitted. P046 is Submitted (BR-004)."
+      },
+      "error": null,
+      "before": "Submitted",
+      "after": "Submitted"
+    },
+    "P042": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Only drafts can be submitted. P042 is Approved (BR-004)."
+      },
+      "error": null,
+      "before": "Approved",
+      "after": "Approved"
+    }
+  },
+  "TC-04": {
+    "B1": {
+      "http": 200,
+      "error": null,
+      "ok": false,
+      "resultError": "1 required field is incomplete.",
+      "status": "Draft",
+      "storedBudget": 320000
+    },
+    "B2": {
+      "http": 200,
+      "error": null,
+      "ok": true,
+      "resultError": null,
+      "status": "Submitted",
+      "storedBudget": 0.01
+    },
+    "B3": {
+      "http": 200,
+      "error": null,
+      "ok": false,
+      "resultError": "1 required field is incomplete.",
+      "status": "Draft",
+      "storedBudget": 320000
+    },
+    "B4": {
+      "http": 200,
+      "error": null,
+      "ok": false,
+      "resultError": "1 required field is incomplete.",
+      "status": "Draft",
+      "storedBudget": 320000
+    }
+  },
+  "TC-05": {
+    "P046": {
+      "afterOpen": "Under Review",
+      "http": 200,
+      "result": {
+        "ok": true
+      },
+      "error": null,
+      "status": "Approved",
+      "eligibleForAgreement": true,
+      "ownerNotified": [
+        "Proposal approved"
+      ]
+    }
+  },
+  "TC-06": {
+    "P046": {
+      "http": 200,
+      "result": {
+        "ok": true
+      },
+      "error": null,
+      "status": "Rejected",
+      "storedReason": "Budget is not broken down by deliverable.",
+      "ownerNotified": [
+        "Proposal rejected"
+      ]
+    }
+  },
+  "TC-07": {
+    "B1": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Give a reason for the rejection (FR-013)."
+      },
+      "error": null,
+      "status": "Under Review",
+      "approvalRows": 0
+    },
+    "B2": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Give a reason for the rejection (FR-013)."
+      },
+      "error": null,
+      "status": "Under Review",
+      "approvalRows": 0
+    },
+    "B3": {
+      "http": 200,
+      "result": {
+        "ok": true
+      },
+      "error": null,
+      "status": "Rejected",
+      "approvalRows": 1
+    }
+  },
+  "TC-08": {
+    "A/B (API: second decision on P046)": {
+      "first": {
+        "http": 200,
+        "result": {
+          "ok": true
+        },
+        "error": null
+      },
+      "second": {
+        "http": 200,
+        "result": {
+          "ok": false,
+          "error": "A decision has already been recorded for P046."
+        },
+        "error": null
+      },
+      "status": "Approved",
+      "approvalRows": 1
+    },
+    "C": {
+      "http": 200,
+      "result": null,
+      "error": null,
+      "status": "Draft"
+    }
+  },
+  "TC-09": {
+    "A": {
+      "http": 200,
+      "result": {
+        "ok": true
+      },
+      "error": null,
+      "before": "+-----------+-----------------+------------+-------------------+\n| approvals | proposal_status | audit_rows | notification_rows |\n+-----------+-----------------+------------+-------------------+\n|         0 | Under Review    |          0 |                 0 |\n+-----------+-----------------+------------+-------------------+",
+      "after": "+-----------+-----------------+------------+-------------------+\n| approvals | proposal_status | audit_rows | notification_rows |\n+-----------+-----------------+------------+-------------------+\n|         1 | Approved        |          1 |                 1 |\n+-----------+-----------------+------------+-------------------+"
+    },
+    "B": {
+      "http": 500,
+      "result": null,
+      "error": "The change could not be saved to the database. Nothing was changed.",
+      "before": "+-----------+-----------------+------------+-------------------+\n| approvals | proposal_status | audit_rows | notification_rows |\n+-----------+-----------------+------------+-------------------+\n|         0 | Under Review    |          0 |                 0 |\n+-----------+-----------------+------------+-------------------+",
+      "after": "+-----------+-----------------+------------+-------------------+\n| approvals | proposal_status | audit_rows | notification_rows |\n+-----------+-----------------+------------+-------------------+\n|         0 | Under Review    |          0 |                 0 |\n+-----------+-----------------+------------+-------------------+",
+      "serverCopyStatus": "Under Review"
+    }
+  },
+  "TC-10": {
+    "PR027": {
+      "http": 200,
+      "result": {
+        "ok": true,
+        "txn": {
+          "id": "T121",
+          "projectId": "PR027",
+          "type": "Payment",
+          "amount": 100000,
+          "date": "2026-10-26",
+          "reference": "UTR HDFC26102699001",
+          "invoiceId": "T120",
+          "recordedBy": "U104",
+          "note": ""
+        }
+      },
+      "error": null,
+      "before": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 4
+      },
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 262000,
+        "available": 278000,
+        "txns": 5
+      }
+    }
+  },
+  "TC-11": {
+    "B1": {
+      "amount": 0,
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Complete the transaction details."
+      },
+      "error": null,
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 4
+      }
+    },
+    "B2": {
+      "amount": 0.01,
+      "http": 200,
+      "result": {
+        "ok": true,
+        "txn": {
+          "id": "T121",
+          "projectId": "PR027",
+          "type": "Payment",
+          "amount": 0.01,
+          "date": "2026-10-26",
+          "reference": "UTR TC11B2",
+          "invoiceId": "T120",
+          "recordedBy": "U104",
+          "note": ""
+        }
+      },
+      "error": null,
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000.01,
+        "available": 377999.99,
+        "txns": 5
+      },
+      "dbAmount": "+----------------+--------+\n| transaction_id | amount |\n+----------------+--------+\n| T121           |   0.01 |\n+----------------+--------+"
+    },
+    "B3": {
+      "amount": 378000,
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Amount is more than the ₹1,62,000 outstanding on INV/2026/018."
+      },
+      "error": null,
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 4
+      }
+    },
+    "B4": {
+      "amount": 378000.01,
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Payments would exceed the approved budget. Available balance: ₹3,78,000."
+      },
+      "error": null,
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 4
+      }
+    },
+    "B5": {
+      "amount": 900000,
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Payments would exceed the approved budget. Available balance: ₹3,78,000."
+      },
+      "error": null,
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 4
+      }
+    },
+    "B6": {
+      "amount": 1000.005,
+      "http": 200,
+      "result": {
+        "ok": true,
+        "txn": {
+          "id": "T121",
+          "projectId": "PR027",
+          "type": "Payment",
+          "amount": 1000.005,
+          "date": "2026-10-26",
+          "reference": "UTR TC11B6",
+          "invoiceId": "T120",
+          "recordedBy": "U104",
+          "note": ""
+        }
+      },
+      "error": null,
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 163000.005,
+        "available": 376999.995,
+        "txns": 5
+      },
+      "dbAmount": "+----------------+---------+\n| transaction_id | amount  |\n+----------------+---------+\n| T121           | 1000.01 |\n+----------------+---------+"
+    }
+  },
+  "TC-12": {
+    "A": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "PR029 is cancelled. Cancelled projects cannot accept new transactions."
+      },
+      "error": null,
+      "txnsAfter": 3
+    },
+    "D (invoice T117 of PR031)": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Complete the transaction details."
+      },
+      "error": null,
+      "txnsAfter": 4
+    }
+  },
+  "TC-13": {
+    "A": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Amount is more than the ₹0 outstanding on INV/2026/016."
+      },
+      "error": null,
+      "after": {
+        "budget": 600000,
+        "invoiced": 150000,
+        "received": 150000,
+        "available": 450000,
+        "txns": 3
+      }
+    },
+    "B": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Amount is more than the ₹0 outstanding on INV/2026/016."
+      },
+      "error": null,
+      "after": {
+        "budget": 600000,
+        "invoiced": 150000,
+        "received": 150000,
+        "available": 450000,
+        "txns": 3
+      }
+    },
+    "probe: same reference on an open invoice (PR027/T120)": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Already recorded as T118 (UTR HDFC26091577310, ₹1,50,000)."
+      },
+      "error": null,
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 4
+      }
+    }
+  },
+  "TC-14": {
+    "A": {
+      "http": 200,
+      "result": {
+        "ok": true,
+        "txn": {
+          "id": "T121",
+          "projectId": "PR027",
+          "type": "Invoice",
+          "amount": 60000,
+          "date": "2026-10-26",
+          "reference": "INV/2026/019",
+          "recordedBy": "U104",
+          "note": ""
+        }
+      },
+      "error": null,
+      "before": "+------+-----------+-----------+------------+-------------------+\n| txns | invoiced  | received  | audit_rows | notification_rows |\n+------+-----------+-----------+------------+-------------------+\n|    4 | 324000.00 | 162000.00 |         16 |                11 |\n+------+-----------+-----------+------------+-------------------+",
+      "after": "+------+-----------+-----------+------------+-------------------+\n| txns | invoiced  | received  | audit_rows | notification_rows |\n+------+-----------+-----------+------------+-------------------+\n|    5 | 384000.00 | 162000.00 |         17 |                13 |\n+------+-----------+-----------+------------+-------------------+",
+      "summary": {
+        "budget": 540000,
+        "invoiced": 384000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 5
+      }
+    },
+    "B": {
+      "http": 500,
+      "result": null,
+      "error": "The change could not be saved to the database. Nothing was changed.",
+      "before": "+------+-----------+-----------+------------+-------------------+\n| txns | invoiced  | received  | audit_rows | notification_rows |\n+------+-----------+-----------+------------+-------------------+\n|    4 | 324000.00 | 162000.00 |         16 |                11 |\n+------+-----------+-----------+------------+-------------------+",
+      "after": "+------+-----------+-----------+------------+-------------------+\n| txns | invoiced  | received  | audit_rows | notification_rows |\n+------+-----------+-----------+------------+-------------------+\n|    4 | 324000.00 | 162000.00 |         16 |                11 |\n+------+-----------+-----------+------------+-------------------+",
+      "serverCopy": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 4
+      },
+      "nextRequestAfterRemovingDouble": {
+        "http": 200,
+        "result": {
+          "ok": true,
+          "txn": {
+            "id": "T121",
+            "projectId": "PR027",
+            "type": "Payment",
+            "amount": 100000,
+            "date": "2026-10-26",
+            "reference": "UTR TC14B",
+            "invoiceId": "T120",
+            "recordedBy": "U104",
+            "note": ""
+          }
+        },
+        "error": null
+      }
+    }
+  },
+  "TC-16": {
+    "A": {
+      "wrongPassword": [
+        401,
+        "The email or password is incorrect, or the account is inactive."
+      ],
+      "unknownEmail": [
+        401,
+        "The email or password is incorrect, or the account is inactive."
+      ]
+    },
+    "B": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "You are not authorized to submit this proposal."
+      },
+      "error": null,
+      "status": "Draft"
+    },
+    "C": {
+      "openForReview": {
+        "http": 200,
+        "result": null,
+        "error": null
+      },
+      "decide": {
+        "http": 200,
+        "result": {
+          "ok": false,
+          "error": "You are not authorized to review proposals."
+        },
+        "error": null
+      },
+      "status": "Submitted"
+    },
+    "D": {
+      "http": 200,
+      "result": {
+        "ok": false,
+        "error": "Only an active Finance/Accounts Officer can record transactions."
+      },
+      "error": null,
+      "txnsAfter": 4
+    },
+    "E (GET /api/state as Dr. Meera Iyer)": {
+      "http": 200,
+      "p045Returned": true,
+      "p045Owner": "U108",
+      "p045Budget": 275000
+    },
+    "F (expired token)": {
+      "http": 401,
+      "error": "Your session has expired or the account is inactive. Sign in again.",
+      "txnsBefore": 4,
+      "txnsAfter": 4
+    }
+  },
+  "TC-18": {
+    "2 x 200000 in parallel": {
+      "responses": [
+        {
+          "http": 200,
+          "result": {
+            "ok": false,
+            "error": "Amount is more than the ₹1,62,000 outstanding on INV/2026/018."
+          },
+          "error": null
+        },
+        {
+          "http": 200,
+          "result": {
+            "ok": false,
+            "error": "Amount is more than the ₹1,62,000 outstanding on INV/2026/018."
+          },
+          "error": null
+        }
+      ],
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 162000,
+        "available": 378000,
+        "txns": 4
+      }
+    },
+    "probe: 2 x 100000 in parallel": {
+      "responses": [
+        {
+          "http": 200,
+          "result": {
+            "ok": true,
+            "txn": {
+              "id": "T121",
+              "projectId": "PR027",
+              "type": "Payment",
+              "amount": 100000,
+              "date": "2026-10-26",
+              "reference": "UTR TC18-0-100000",
+              "invoiceId": "T120",
+              "recordedBy": "U104",
+              "note": ""
+            }
+          },
+          "error": null
+        },
+        {
+          "http": 200,
+          "result": {
+            "ok": false,
+            "error": "Amount is more than the ₹62,000 outstanding on INV/2026/018."
+          },
+          "error": null
+        }
+      ],
+      "after": {
+        "budget": 540000,
+        "invoiced": 324000,
+        "received": 262000,
+        "available": 278000,
+        "txns": 5
+      }
+    }
+  },
+  "_meta": {
+    "executed": "2026-11-20 20:07",
+    "api": "http://localhost:3101",
+    "database": "cpts_test"
+  }
+}

@@ -56,7 +56,7 @@ export default function App() {
   if (!canAccess(target, user.roleId)) {
     page = (
       <Panel>
-        <EmptyState icon={ShieldOff} title="Your role doesn’t have access to this page" body="Access to each module is controlled by your assigned role (FR-005). Switch to a different demo account to see it." action={<ButtonLink to="/dashboard">Go to dashboard</ButtonLink>} />
+        <EmptyState icon={ShieldOff} title="Your role doesn’t have access to this page" body="Access to each module is controlled by your assigned role. Switch to a different demo account to see it." action={<ButtonLink to="/dashboard">Go to dashboard</ButtonLink>} />
       </Panel>
     )
   }

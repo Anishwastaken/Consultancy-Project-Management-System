@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
+import { createContext, useCallback, useContext, useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type Ref, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
 import { AlertCircle, CheckCircle2, ChevronLeft, Info, Search, X, type LucideIcon } from 'lucide-react'
 import { cx, initials } from '../lib/format'
 import { Link } from '../lib/router'
@@ -166,7 +166,7 @@ export function Field({ label, hint, error, required, children, className, htmlF
   )
 }
 
-export function Input({ className, invalid, ...p }: InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean }) {
+export function Input({ className, invalid, ...p }: InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean; ref?: Ref<HTMLInputElement> }) {
   return <input {...p} aria-invalid={invalid || undefined} className={cx(control, 'h-9', className)} />
 }
 export function Textarea({ className, invalid, ...p }: TextareaHTMLAttributes<HTMLTextAreaElement> & { invalid?: boolean }) {

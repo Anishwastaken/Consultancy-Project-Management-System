@@ -290,7 +290,7 @@ export function ProposalDetail({ id, review }: { id: string; review?: boolean })
                   <strong>
                     {missing.length} of {PROPOSAL_FIELDS.length} required fields are incomplete.
                   </strong>{' '}
-                  Complete {missing.map((m) => m.label.toLowerCase()).join(', ')} before submitting (UC-004, step 5).{' '}
+                  Complete {missing.map((m) => m.label.toLowerCase()).join(', ')} before submitting.{' '}
                   <Link to={`/proposals/${p.id}/edit`} className="font-semibold text-brand underline">
                     Complete the draft
                   </Link>
@@ -352,7 +352,7 @@ export function ProposalDetail({ id, review }: { id: string; review?: boolean })
                   Reject
                 </Button>
               </div>
-              <p className="mt-3 text-[12.5px] text-ink-3">An approved proposal becomes eligible for agreement finalization. A rejection requires a reason (FR-013).</p>
+              <p className="mt-3 text-[12.5px] text-ink-3">An approved proposal becomes eligible for agreement finalization. A rejection requires a reason.</p>
             </Panel>
           )}
 
@@ -369,7 +369,7 @@ export function ProposalDetail({ id, review }: { id: string; review?: boolean })
               {p.status === 'Approved' && !p.agreementId && (
                 <div className="mt-4">
                   <Notice>
-                    Eligible for agreement finalization (FR-033).{' '}
+                    Eligible for agreement finalization.{' '}
                     {can(db, u, 'agreement.finalize') ? 'Use “Finalize agreement” to record it.' : 'The consultancy office will record the agreement.'}
                   </Notice>
                 </div>
@@ -511,7 +511,7 @@ function FinalizeDialog({ open, onClose, proposal }: { open: boolean; onClose: (
       open={open}
       onClose={onClose}
       title="Finalize agreement"
-      description={`Record the signed agreement for ${proposal.id}. This creates the project and lets accounts record its budget (FR-014, BR-002).`}
+      description={`Record the signed agreement for ${proposal.id}. This creates the project and lets accounts record its budget.`}
       footer={
         <>
           <Button onClick={onClose}>Cancel</Button>

@@ -47,18 +47,18 @@ const roles: Role[] = [
 
 export function createSeed(): DB {
   return {
-    version: 3,
+    version: 4,
     roles,
     users: [
-      { id: 'U101', name: 'Dr. Meera Iyer', email: 'meera.iyer@cpts.demo', phone: '+91 98290 11021', roleId: 'faculty', department: 'Computer Science & Engineering', title: 'Associate Professor', status: 'Active' },
-      { id: 'U102', name: 'Dr. Arjun Rathore', email: 'arjun.rathore@cpts.demo', phone: '+91 98290 11845', roleId: 'faculty', department: 'Electronics & Communication', title: 'Assistant Professor', status: 'Active' },
-      { id: 'U103', name: 'Prof. Sanjay Mehta', email: 'sanjay.mehta@cpts.demo', phone: '+91 98290 10007', roleId: 'approver', department: 'Office of Sponsored Research & Consultancy', title: 'Dean, Consultancy', status: 'Active' },
-      { id: 'U104', name: 'Neha Gupta', email: 'neha.gupta@cpts.demo', phone: '+91 98290 12230', roleId: 'finance', department: 'Finance & Accounts', title: 'Accounts Officer', status: 'Active' },
-      { id: 'U105', name: 'Rohit Verma', email: 'rohit.verma@cpts.demo', phone: '+91 98290 12901', roleId: 'admin', department: 'IT Services', title: 'System Administrator', status: 'Active' },
-      { id: 'U106', name: 'Dr. Anand Krishnan', email: 'anand.krishnan@cpts.demo', phone: '+91 98290 10001', roleId: 'management', department: "Director's Office", title: 'Associate Director', status: 'Active' },
-      { id: 'U107', name: 'Dr. Priya Saxena', email: 'priya.saxena@cpts.demo', phone: '+91 98290 11377', roleId: 'faculty', department: 'Mechanical-Mechatronics Engineering', title: 'Associate Professor', status: 'Active' },
-      { id: 'U108', name: 'Dr. Vikram Shekhawat', email: 'vikram.shekhawat@cpts.demo', phone: '+91 98290 11560', roleId: 'faculty', department: 'Physics', title: 'Assistant Professor', status: 'Active' },
-      { id: 'U109', name: 'Kunal Bhatia', email: 'kunal.bhatia@cpts.demo', phone: '+91 98290 12455', roleId: 'finance', department: 'Finance & Accounts', title: 'Accounts Assistant', status: 'Inactive' },
+      { id: 'U101', name: 'Dr. Meera Iyer', email: 'meera.iyer@lnmiit.ac.in', phone: '+91 98290 11021', roleId: 'faculty', department: 'Computer Science & Engineering', title: 'Associate Professor', status: 'Active' },
+      { id: 'U102', name: 'Dr. Arjun Rathore', email: 'arjun.rathore@lnmiit.ac.in', phone: '+91 98290 11845', roleId: 'faculty', department: 'Electronics & Communication', title: 'Assistant Professor', status: 'Active' },
+      { id: 'U103', name: 'Prof. Sanjay Mehta', email: 'sanjay.mehta@lnmiit.ac.in', phone: '+91 98290 10007', roleId: 'approver', department: 'Office of Sponsored Research & Consultancy', title: 'Dean, Consultancy', status: 'Active' },
+      { id: 'U104', name: 'Neha Gupta', email: 'neha.gupta@lnmiit.ac.in', phone: '+91 98290 12230', roleId: 'finance', department: 'Finance & Accounts', title: 'Accounts Officer', status: 'Active' },
+      { id: 'U105', name: 'Rohit Verma', email: 'rohit.verma@lnmiit.ac.in', phone: '+91 98290 12901', roleId: 'admin', department: 'IT Services', title: 'System Administrator', status: 'Active' },
+      { id: 'U106', name: 'Dr. Anand Krishnan', email: 'anand.krishnan@lnmiit.ac.in', phone: '+91 98290 10001', roleId: 'management', department: "Director's Office", title: 'Associate Director', status: 'Active' },
+      { id: 'U107', name: 'Dr. Priya Saxena', email: 'priya.saxena@lnmiit.ac.in', phone: '+91 98290 11377', roleId: 'faculty', department: 'Mechanical-Mechatronics Engineering', title: 'Associate Professor', status: 'Active' },
+      { id: 'U108', name: 'Dr. Vikram Shekhawat', email: 'vikram.shekhawat@lnmiit.ac.in', phone: '+91 98290 11560', roleId: 'faculty', department: 'Physics', title: 'Assistant Professor', status: 'Active' },
+      { id: 'U109', name: 'Kunal Bhatia', email: 'kunal.bhatia@lnmiit.ac.in', phone: '+91 98290 12455', roleId: 'finance', department: 'Finance & Accounts', title: 'Accounts Assistant', status: 'Inactive' },
     ],
     clients: [
       { id: 'C009', name: 'Aravali Water Utilities Ltd.', orgType: 'Public sector undertaking', contactPerson: 'S. K. Bansal', contactEmail: 'projects@aravaliwater.example', contactPhone: '+91 141 270 4410', address: 'Malviya Nagar, Jaipur, Rajasthan', consultantId: 'U102', onboardingDate: '2025-11-18', category: 'Infrastructure', status: 'Active' },

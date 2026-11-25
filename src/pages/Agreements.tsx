@@ -27,7 +27,7 @@ export default function Agreements() {
 
   return (
     <>
-      <PageHeader title="Agreements" description="Finalized consultancy agreements, each linked to an approved proposal (BR-002, FR-036)." />
+      <PageHeader title="Agreements" description="Finalized consultancy agreements, each linked to an approved proposal." />
 
       {awaiting.length > 0 && (
         <div className="mb-6">
